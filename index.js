@@ -1,5 +1,6 @@
 const inquirer = require('inquirer')
 const deptsArray = []; // Empty array for list of Departments
+const db = require('./db/connection'); // connect to db business_db
 
 // inital questions, start program
 const questions = () => {  
