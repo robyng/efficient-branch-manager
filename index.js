@@ -1,37 +1,61 @@
 const inquirer = require('inquirer')
-const deptArray = []; // Empty array for list of Departments
-const questions = () => {
-    
+const deptsArray = []; // Empty array for list of Departments
+
+// inital questions, start program
+const questions = () => {  
     return inquirer.prompt([
         {
             type: 'list',
-            name: 'start-list',
+            name: 'start',
             message: 'Welcome to Efficient Branch Manager. Please make a selection.',
-            choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add a Department', 'Add a Role', 'Add an Employee','Update an Employee Role'],
+            choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add a Department', 'Add a Role', 'Add an Employee','Update an Employee Role', 'Quit Program'],
             default: 'View All Departments'
         }
     ])
 .then((answers) => {
-    switch (answers) {
+    switch (answers.start) {
         case "Add a Department":
             newDept();
             break;
+            case 'Add a Role':
+                console.log('we need to add a role')
+                break;
+                case 'Quit Program':
+                    endProgram()
+                    break;
+                    case 'View All Departments':
+                        viewDepts()
+                        break;
+
+                
+
     }
 })
 };
 
-const newDept = () => {
+function newDept() {
     return inquirer.prompt([
         {
                 type: 'input',
-                name: 'add-dept-name',
+                name: 'dept-name',
                 message: 'What is the name of the Department?',
                 default: 'Department Name TBD'
         }
     ])
+    .then((answers) => {
+        deptsArray.push(answers)
+        console.log(deptsArray)
+        questions()
+    })
 };
 
-questions()
-.then(answers => {
-console.log(answers)
-});
+function viewDepts() {
+    console.log(deptsArray)
+    questions()
+}
+
+function endProgram () {
+    console.log("Good bye!")
+};
+
+questions();
