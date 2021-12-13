@@ -8,7 +8,7 @@ const db = mysql.createConnection(
         password: 'password',
         database: 'business'
     },
-    console.log('connected to the business database')
+    console.log('Succesfully connected to the business database')
 );
 
 

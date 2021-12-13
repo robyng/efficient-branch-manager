@@ -31,7 +31,7 @@ const questions = () => {
             newDept();
             break;
         case 'Add a Role':
-            console.log('we need to add a role')
+            newRole();
             break;
         case 'Add an Employee':
             console.log('we need to add an employee')
@@ -51,21 +51,61 @@ function newDept() {
     return inquirer.prompt([
         {
                 type: 'input',
-                name: 'dept-name',
+                name: 'deptName',
                 message: 'What is the name of the Department?',
                 default: 'TBD'
         }
     ])
     .then((answers) => {
-        deptsArray.push(answers)
-        console.table(deptsArray)
-        questions()
+        db.query(`INSERT INTO department (name)
+        VALUES ('${answers.deptName}') `, function(err, results, fields) {
+            console.log('answers is ' + answers.deptName)
+            console.log(results)
+            console.log(err)
+            
+            questions()
+            
+        })
+        // deptsArray.push(answers)
+        // console.table(deptsArray)
+        //questions()
     })
 };
 
-//function viewDepts() {
+function newRole() {
+    return inquirer.prompt([
+        {
+                type: 'input',
+                name: 'roleName',
+                message: 'What is the name of the Department?',
+                default: 'TBD'
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'What is the salary for this role?',
+            default: 'TBD'
+    },
+    {
+        type: 'list',
+        name: 'selectDept',
+        message: 'Under what department is this role?',
+        default: 'Admin'
+}
+    ])
+    .then((answers) => {
+        db.query(`INSERT INTO titleName (${answers.roleName}, ${answers.salary}, dept_id)
+        VALUES ('Fire Board Chair', 0.00, 1)`, function(err, results, fields) {
+            console.log('answers is ' + answers.deptName)
+                console.log(results)
+                console.log(err)
+            questions()
+            
+        })
+    })
+};
+
     function dbShowDept() {
-        //const sql = `SELECT * FROM department`
         db.query(`SELECT * FROM department`, function(err, results, fields) {
             console.table(results);
             questions()
