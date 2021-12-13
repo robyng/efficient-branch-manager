@@ -1,6 +1,7 @@
 const inquirer = require('inquirer')
 const deptsArray = []; // Empty array for list of Departments
 const db = require('./db/connection'); // connect to db business_db
+const dbShowDept = require('./db/tables');
 
 // inital questions, start program
 const questions = () => {  
@@ -51,7 +52,8 @@ function newDept() {
 };
 
 function viewDepts() {
-    console.log(deptsArray)
+    let myDepts = dbShowDept()
+    console.log(myDepts)
     questions()
 }
 
