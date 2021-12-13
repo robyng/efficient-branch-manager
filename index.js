@@ -1,7 +1,7 @@
 const inquirer = require('inquirer')
 const deptsArray = []; // Empty array for list of Departments
 const db = require('./db/connection'); // connect to db business_db
-const dbShowDept = require('./db/tables');
+//const dbShowDept = require('./db/tables');
 
 // inital questions, start program
 const questions = () => {  
@@ -16,18 +16,26 @@ const questions = () => {
     ])
 .then((answers) => {
     switch (answers.start) {
+        case 'View All Departments':
+            dbShowDept()
+            break;
+        case 'View All Roles':
+            dbShowRoles()
+            break;
+        case 'View All Employees':
+            dbShowEmployees()
+            break;
+            
         case "Add a Department":
             newDept();
             break;
-            case 'Add a Role':
-                console.log('we need to add a role')
-                break;
-                case 'Quit Program':
-                    endProgram()
-                    break;
-                    case 'View All Departments':
-                        viewDepts()
-                        break;
+        case 'Add a Role':
+            console.log('we need to add a role')
+            break;
+        case 'Quit Program':
+            endProgram()
+            break;
+
 
                 
 
@@ -41,7 +49,7 @@ function newDept() {
                 type: 'input',
                 name: 'dept-name',
                 message: 'What is the name of the Department?',
-                default: 'Department Name TBD'
+                default: 'TBD'
         }
     ])
     .then((answers) => {
@@ -51,14 +59,36 @@ function newDept() {
     })
 };
 
-function viewDepts() {
-    let myDepts = dbShowDept()
-    console.log(myDepts)
-    questions()
-}
+//function viewDepts() {
+    function dbShowDept() {
+        //const sql = `SELECT * FROM department`
+        db.query(`SELECT * FROM department`, function(err, results, fields) {
+            console.log(results);
+            questions()
+            
+        })
+        
+      };
+
+      // show all roles
+      function dbShowRoles() {
+        db.query(`SELECT * FROM titleName`, function(err, results, fields) {
+            console.log(results);
+            questions()
+            
+        })
+      }
+
+      function dbShowEmployees() {
+        db.query(`SELECT * FROM employee`, function(err, results, fields) {
+            console.log(results);
+            questions()
+            
+        })
+      }
 
 function endProgram () {
-    console.log("Good bye!")
+    console.log("Goodbye!")
 };
 
 questions();
