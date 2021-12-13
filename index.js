@@ -58,7 +58,7 @@ function newDept() {
     ])
     .then((answers) => {
         deptsArray.push(answers)
-        console.log(deptsArray)
+        console.table(deptsArray)
         questions()
     })
 };
