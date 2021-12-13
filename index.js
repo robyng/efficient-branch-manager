@@ -1,4 +1,5 @@
 const inquirer = require('inquirer')
+const cTable = require('console.table');
 const deptsArray = []; // Empty array for list of Departments
 const db = require('./db/connection'); // connect to db business_db
 //const dbShowDept = require('./db/tables');
@@ -32,13 +33,16 @@ const questions = () => {
         case 'Add a Role':
             console.log('we need to add a role')
             break;
+        case 'Add an Employee':
+            console.log('we need to add an employee')
+            break;
+        case 'Update an Employee Role':
+            console.log('we need to update an employee role')
+            break;
+
         case 'Quit Program':
             endProgram()
             break;
-
-
-                
-
     }
 })
 };
@@ -63,7 +67,7 @@ function newDept() {
     function dbShowDept() {
         //const sql = `SELECT * FROM department`
         db.query(`SELECT * FROM department`, function(err, results, fields) {
-            console.log(results);
+            console.table(results);
             questions()
             
         })
@@ -73,7 +77,7 @@ function newDept() {
       // show all roles
       function dbShowRoles() {
         db.query(`SELECT * FROM titleName`, function(err, results, fields) {
-            console.log(results);
+            console.table(results);
             questions()
             
         })
@@ -81,7 +85,7 @@ function newDept() {
 
       function dbShowEmployees() {
         db.query(`SELECT * FROM employee`, function(err, results, fields) {
-            console.log(results);
+            console.table(results);
             questions()
             
         })
