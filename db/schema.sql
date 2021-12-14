@@ -22,5 +22,7 @@ CREATE TABLE employee (
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     titleName_id INTEGER,
-    FOREIGN KEY (titleName_id) REFERENCES titleName(id) ON DELETE SET NULL
+    manager_id INTEGER,
+    FOREIGN KEY (titleName_id) REFERENCES titleName(id) ON DELETE SET NULL,
+    FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );

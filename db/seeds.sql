@@ -21,19 +21,36 @@ VALUES ('Fire Board Chair', 0.00, 1),
 ('Fire Fighter', 94486.34, 4),
 ('Fire Fighter', 88743.01, 4);
 
-INSERT INTO employee (first_name, last_name, titleName_id)
+-- INSERT INTO employee (first_name, last_name, titleName_id, manager_id)
+-- VALUES 
+-- ('Ricardo', 'Ortiz', 14, null),
+-- ('Chad', 'Bradley', 13, null),
+-- ('Brian', 'Pries', 12, NULL),
+-- ('Lanty', 'Molloy Jr', 11, NULL),
+-- ('Jeff', 'Baker', 10, null),
+-- ('Timothy', 'Louis', 9, null),
+-- ('Christy', 'Adonis', 8, null),
+-- ('Julie', 'Parenti', 7, null),
+-- ('Patricia', 'Koch', 6, null),
+-- ('John', 'Kammeyer II', 4, null),
+-- ('Bruce', 'Barron', 5, null),
+-- ('Michael', 'Brownrigg', 3, null),
+-- ('Sophie', 'Cole', 2, null),
+-- ('Marie', 'Chuang', 1, null);
+
+INSERT INTO employee (first_name, last_name, titleName_id, manager_id)
 VALUES 
-('Ricardo', 'Ortiz', 14),
-('Chad', 'Bradley', 13),
-('Brian', 'Pries', 12),
-('Lanty', 'Molloy Jr', 11),
-('Jeff', 'Baker', 10),
-('Timothy', 'Louis', 9),
-('Christy', 'Adonis', 8),
-('Julie', 'Parenti', 7),
-('Patricia', 'Koch', 6),
-('John', 'Kammeyer II', 4),
-('Bruce', 'Barron', 5),
-('Michael', 'Brownrigg', 3),
-('Sophie', 'Cole', 2),
-('Ricardo', 'Ortiz', 1);
+('Ricardo', 'Ortiz', 14, null),
+('Chad', 'Bradley', 13, null),
+('Brian', 'Pries', 12, null),
+('Lanty', 'Molloy Jr', 11, 1),
+('Jeff', 'Baker', 10, 2),
+('Timothy', 'Louis', 9, 3),
+('Christy', 'Adonis', 8, 3),
+('Julie', 'Parenti', 7, 3),
+('Patricia', 'Koch', 6, 2),
+('John', 'Kammeyer II', 4, 1),
+('Bruce', 'Barron', 5, 3),
+('Michael', 'Brownrigg', 3, 3),
+('Sophie', 'Cole', 2, 2),
+('Marie', 'Chuang', 1, 1);

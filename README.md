@@ -16,14 +16,16 @@ The log is organized in MySql database tables. Use your command line terminal to
 This app requires a MySQL server on your computer. If you don't have it, follow this guide from UC Berkeley Extension Full Stack Coding Bootcamp: https://coding-boot-camp.github.io/full-stack/mysql/mysql-installation-guide
 
 Set your MySQL password to 'password'. 
-You will need a databse called 'business'.
+You will need a database called 'business'.
 
 NOTE! If you want to use a different password or database name, just update the name and password you are using in /db/connection.js
 
 Otherwise follow these commands one line at a time in your terminal to create the database. When prompted to enter your password enter 'password'.
 
     mysql -u root -p
+
     CREATE DATABASE business
+
     quit
 
 Next download or clone the app files from this link:
@@ -33,6 +35,7 @@ Go to your terminal and cd into the root of the app file.
 Write these commands one line at a time to download node modules and then install all dependencies including console.table, inquirer, and mysql2.
 
     npm init -y
+    
     npm intall
 
 
