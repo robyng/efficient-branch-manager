@@ -2,6 +2,7 @@ const inquirer = require('inquirer')
 const cTable = require('console.table');
 const deptsArray = []; // Empty array for list of Departments
 const db = require('./db/connection'); // connect to db business_db
+const { listenerCount } = require('./db/connection');
 //const dbShowDept = require('./db/tables');
 
 // inital questions, start program
@@ -141,7 +142,8 @@ function dbShowEmployees() {
 };
 
 function newEmployee() {
-    return inquirer.prompt(
+    db.query(`SELECT title AS name, id AS value FROM titleName`, function(err, res) {
+    inquirer.prompt(
         [
             {
                 type: 'input',
@@ -155,19 +157,21 @@ function newEmployee() {
                 message: "What is the employee's last name?",
                 default: 'TBD'
             },
-            {//change to role!!!
-                type: 'list',
-                name: 'managerName_id',
-                message: "Who is the employee's manager?",
-                choices: [{ name: 'John' + ' Kammeyer II', value: 4 }, { name: 'Bruce' + ' Barron', value: 5 }],
-                default: 'TBD'
-            },
             {
                 type: 'list',
-                name: 'managerName_id',
-                message: "Who is the employee's manager?",
-                choices: [{ name: 'John' + ' Kammeyer II', value: 4 }, { name: 'Bruce' + ' Barron', value: 5 }],
+                name: 'titleName_id',
+                message: "What is their role?",
+                choices: res, 
+                // [{ name: 'John' + ' Kammeyer II', value: 4 }, { name: 'Bruce' + ' Barron', value: 5 }],
                 default: 'TBD'
+            },
+            //.then db query??
+            
+            {
+                type: 'input',
+                name: 'manager_id',
+                message: "Who is the employee's manager? List their id number",
+                default: 'NULL',
             },
         ])
 
@@ -184,6 +188,7 @@ function newEmployee() {
                 })
 
         })
+    })
 };
 
 function updateRole() {
