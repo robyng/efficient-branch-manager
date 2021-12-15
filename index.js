@@ -27,7 +27,6 @@ const questions = () => {
                 case 'View All Employees':
                     dbShowEmployees()
                     break;
-
                 case "Add a Department":
                     newDept();
                     break;
@@ -144,6 +143,7 @@ function dbShowEmployees() {
 };
 
 function newEmployee() {
+    myArray = []
     db.query(`SELECT title AS name, id AS value FROM titleName`, function(err, res) {
     inquirer.prompt(
         [
@@ -166,26 +166,39 @@ function newEmployee() {
                 choices: res, 
                 // [{ name: 'John' + ' Kammeyer II', value: 4 }, { name: 'Bruce' + ' Barron', value: 5 }],
                 default: 'TBD'
-            },
+            }
             //.then db query??
             
-            {
-                type: 'input',
-                name: 'manager_id',
-                message: "Who is the employee's manager? List their id number",
-                default: 'NULL',
-            },
+            // {
+            //     type: 'input',
+            //     name: 'manager_id',
+            //     message: "Who is the employee's manager? List their id number",
+            //     default: 'NULL',
+            // },
         ])
 
-        .then((answers) => {
-            db.query(`INSERT INTO employee SET ?`, answers,
-                function (err, results, fields) {
-                    if (err) {
-                        throw err;
-                    }
+        .then((answers = myArray) => {
+            db.query(`SELECT first_name AS name, manager_id FROM employee`, answers,
+                function (err, res) {
+                   inquirer.prompt ({
+                       type: 'list',
+                       name: 'manager-list',
+                       message: 'Who is their manager?',
+                       choices: res
+                   })
 
-                    console.log(results)
-                    questions()
+                    console.log('this is my res ' + res)
+                   
+
+                })
+                .then((answers) => { 
+                    db.query('INSERT INTO employee SET ?', answers, function(err, results, fields) {
+                        if (err) {
+                            throw err;
+                        }
+                        console.log(results)
+                        questions()
+                    })
 
                 })
 
