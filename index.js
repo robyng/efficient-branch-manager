@@ -74,6 +74,7 @@ function newDept() {
 };
 
 function newRole() {
+    // name is same as dept name column for retrieving query as an object. Make alias for id to be value to get id of dept name in the object
     db.query(`SELECT name, id AS value FROM department`, function(err, res) {
 
     
@@ -99,6 +100,7 @@ function newRole() {
             default: 'Admin'
         }
     ])
+
         .then((answers) => {
             db.query(`INSERT INTO titlename SET ?`, answers,
                 function (err, results, fields) {

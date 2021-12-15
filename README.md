@@ -6,13 +6,14 @@ This node.js application helps you organize your business by creating a log of a
 
 The log is organized in MySql database tables. Use your command line terminal to view, add, update and delete entries. No internet required after inital files download.
 
-### Requirements and Installation
+### Requirements
 1. Local MySQL Server
 2. Command Line Interface like Git Bash or VS Code
 3. NPM inquirer
 4. NPM console.table
 5. NPM mysql2
 
+### Installation
 This app requires a MySQL server on your computer. If you don't have it, follow this guide from UC Berkeley Extension Full Stack Coding Bootcamp: https://coding-boot-camp.github.io/full-stack/mysql/mysql-installation-guide
 
 Set your MySQL password to 'password'. 
@@ -39,6 +40,14 @@ Write these commands one line at a time to download node modules and then instal
     npm intall
 
 
+### Usage
+
+To start the program use this command:
+
+    node index
+
+
+Watch this walkthrough showing how the program can be used.
 
 
 ### Credits
