@@ -5,6 +5,7 @@ VALUES ('Fire Board'),
 ('Prevention Preparedness'), 
 ('Operations');
 
+/* update to have only one role*/
 INSERT INTO titleName (title, salary, dept_id)
 VALUES ('Fire Board Chair', 0.00, 1), 
 ('Fire Board Member', 0.00, 1),

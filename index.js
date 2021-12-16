@@ -74,45 +74,45 @@ function newDept() {
 
 function newRole() {
     // name is same as dept name column for retrieving query as an object. Make alias for id to be value to get id of dept name in the object
-    db.query(`SELECT name, id AS value FROM department`, function(err, res) {
+    db.query(`SELECT name, id AS value FROM department`, function (err, res) {
 
-    
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'title',
-            message: 'What is the name of the role?',
-            default: 'TBD'
-        },
-        {
-            type: 'input',
-            name: 'salary',
-            message: 'What is the salary for this role?',
-            default: 'TBD'
-        },
-        {
-            type: 'list',
-            name: 'dept_id',
-            message: 'Under what department is this role?',
-            choices: res,
-            //choices: [{ name: "Admin", value: 5 }, { name: 'Fire Board', value: 1 }, { name: 'Executive Staff', value: 2 }],
-            default: 'Admin'
-        }
-    ])
 
-        .then((answers) => {
-            db.query(`INSERT INTO titlename SET ?`, answers,
-                function (err, results, fields) {
-                    if (err) {
-                        throw err;
-                    }
-                    //console.log('answers is ' + answers.deptName)
-                    console.log(results)
+        return inquirer.prompt([
+            {
+                type: 'input',
+                name: 'title',
+                message: 'What is the name of the role?',
+                default: 'TBD'
+            },
+            {
+                type: 'input',
+                name: 'salary',
+                message: 'What is the salary for this role?',
+                default: 'TBD'
+            },
+            {
+                type: 'list',
+                name: 'dept_id',
+                message: 'Under what department is this role?',
+                choices: res,
+                //choices: [{ name: "Admin", value: 5 }, { name: 'Fire Board', value: 1 }, { name: 'Executive Staff', value: 2 }],
+                default: 'Admin'
+            }
+        ])
 
-                    questions()
+            .then((answers) => {
+                db.query(`INSERT INTO titlename SET ?`, answers,
+                    function (err, results, fields) {
+                        if (err) {
+                            throw err;
+                        }
+                        //console.log('answers is ' + answers.deptName)
+                        console.log(results)
 
-                })
-        })
+                        questions()
+
+                    })
+            })
     })
 };
 
@@ -144,70 +144,78 @@ function dbShowEmployees() {
 
 function newEmployee() {
     myArray = []
-    db.query(`SELECT title AS name, id AS value FROM titleName`, function(err, res) {
-    inquirer.prompt(
-        [
-            {
-                type: 'input',
-                name: 'first_name',
-                message: "What is the employee's first name?",
-                default: 'TBD'
-            },
-            {
-                type: 'input',
-                name: 'last_name',
-                message: "What is the employee's last name?",
-                default: 'TBD'
-            },
-            {
-                type: 'list',
-                name: 'titleName_id',
-                message: "What is their role?",
-                choices: res, 
-                // [{ name: 'John' + ' Kammeyer II', value: 4 }, { name: 'Bruce' + ' Barron', value: 5 }],
-                default: 'TBD'
-            }
-            //.then db query??
-            
-            // {
-            //     type: 'input',
-            //     name: 'manager_id',
-            //     message: "Who is the employee's manager? List their id number",
-            //     default: 'NULL',
-            // },
-        ])
+    db.query(`SELECT title AS name, id AS value FROM titleName`, function (err, res) {
+        inquirer.prompt(
+            [
+                {
+                    type: 'input',
+                    name: 'first_name',
+                    message: "What is the employee's first name?",
+                    default: 'TBD'
+                },
+                {
+                    type: 'input',
+                    name: 'last_name',
+                    message: "What is the employee's last name?",
+                    default: 'TBD'
+                },
+                {
+                    type: 'list',
+                    name: 'titleName_id',
+                    message: "What is their role?",
+                    choices: res,
+                    // [{ name: 'John' + ' Kammeyer II', value: 4 }, { name: 'Bruce' + ' Barron', value: 5 }],
+                    default: 'TBD'
+                }
+                //.then db query??
 
-        .then((answers = myArray) => {
-            db.query(`SELECT first_name AS name, manager_id FROM employee`, answers,
-                function (err, res) {
-                   inquirer.prompt ({
-                       type: 'list',
-                       name: 'manager-list',
-                       message: 'Who is their manager?',
-                       choices: res
-                   })
+            ])
 
-                    console.log('this is my res ' + res)
-                   
-
-                })
-                .then((answers) => { 
-                    db.query('INSERT INTO employee SET ?', answers, function(err, results, fields) {
-                        if (err) {
-                            throw err;
+            .then((answers) => {
+                db.query(`SELECT first_name AS name, id AS value FROM employee`, function (err, res) {
+                    inquirer.prompt({
+                        type: 'list',
+                        name: 'manager_id',
+                        message: 'Who is their manager?',
+                        choices: res
+                    }).then((answers2) => {
+                        let employee = {
+                            first_name: answers.first_name,
+                            last_name: answers.last_name,
+                            titleName_id: answers.titleName_id,
+                            manager_id: answers2.manager_id
                         }
-                        console.log(results)
-                        questions()
+                        db.query('INSERT INTO employee SET ?', employee, function (err, results) {
+                            if (err) {
+                                throw err;
+                            }
+                            console.log("Successfully added new Employee.")
+                            questions()
+                        })
+
                     })
-
                 })
+                    
 
-        })
+            })
     })
 };
 
 function updateRole() {
-    inquirer .prompt
+    db.query(`SELECT title AS name, id as VALUE FROM titleName`, answers,
+        function (err, res) {
+            inquirer.prompt
+            [{
+
+                    type: 'list',
+                    name: 'update_role',
+                    message: "What is their role?",
+                    choices: res,
+                    default: 'TBD'
+
+                }]
+            //.then(answers)
+        })
 }
 
 function endProgram() {
