@@ -116,7 +116,7 @@ function newRole() {
             throw err
         };
 
-        return inquirer.prompt([
+        inquirer.prompt([
             {
                 type: 'input',
                 name: 'title',
@@ -219,21 +219,73 @@ function newEmployee() {
 };
 
 function updateRole() {
-    db.query(`SELECT title AS name, id as VALUE FROM titleName`, answers,
-        function (err, res) {
-            inquirer.prompt
-            [{
+    db.query(`SELECT title AS name, id AS value FROM titleName`, function (err, res) {
+        if (err) {
+            throw err;
+        }
+        inquirer.prompt(
+            [
+                {
 
                     type: 'list',
-                    name: 'update_role',
-                    message: "What is their role?",
+                    name: 'title',
+                    message: "What role do you want to update?",
                     choices: res,
                     default: 'TBD'
 
-                }]
-            //.then(answers)
-        })
-}
+                }
+            ])
+            .then((answers) => {
+                console.log(answers.title)
+                db.query(`SELECT name, id AS value FROM department`, function (err, res) {
+                    if (err) {
+                        throw err
+                    };
+                inquirer.prompt([
+                    {
+                        type: "input",
+                        name: "new_title",
+                        message: "What is the new Role name?",
+                        default: "TBD"
+                    },
+                    {
+                        type: "input",
+                        name: 'new_salary',
+                        message: "What is the new Salary?",
+                        default: 'TBD'
+                    },
+                    {
+                        type: 'list',
+                        name: 'new_dept_id',
+                        message: 'What department is this new role under?',
+                        choices: res,
+                        default: 'TBD'
+                    }
+                ])
+                .then((answers2) => {
+                    let updatedRole = {
+                        id: answers.title,
+                        title: answers2.new_title,
+                        salary: answers2.new_salary
+                    }
+                    // Use prepared statements updateRole object for SET and answers.title for id to pick which role to update
+                    db.query(`UPDATE titlename SET ? WHERE id = ?`, [updatedRole, answers.title], function(err, results) {
+                        if (err) {
+                            throw err;
+                        }
+                        console.log("Successfully updated Role: " + answers2.new_title + '. See details below:')
+                        console.log(results)
+                        questions()
+
+                    })
+                })
+            })
+
+    })
+})
+
+};
+
 
 function endProgram() {
     console.log("Goodbye!")
