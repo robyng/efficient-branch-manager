@@ -1,8 +1,6 @@
 const inquirer = require('inquirer')
-const cTable = require('console.table');
-const deptsArray = []; // Empty array for list of Departments
+const cTable = require('console.table'); //for styling mysql tables in console
 const db = require('./db/connection'); // connect to db business_db
-const { listenerCount } = require('./db/connection');
 //const dbShowDept = require('./db/tables');
 
 // inital questions, start program
@@ -66,9 +64,7 @@ function newDept() {
                 questions()
 
             })
-            // deptsArray.push(answers)
-            // console.table(deptsArray)
-            //questions()
+
         })
 };
 
