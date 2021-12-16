@@ -60,7 +60,7 @@ function dbShowDept() {
 
 // show all roles
 function dbShowRoles() {
-    db.query(`SELECT * FROM titleName`, function (err, results) {
+    db.query(`SELECT * FROM role`, function (err, results) {
         if (err) {
             throw err
         };
@@ -140,7 +140,7 @@ function newRole() {
         ])
 
             .then((answers) => {
-                db.query(`INSERT INTO titlename SET ?`, answers,
+                db.query(`INSERT INTO role SET ?`, answers,
                     function (err, results) {
                         if (err) {
                             throw err;
@@ -156,7 +156,7 @@ function newRole() {
 };
 
 function newEmployee() {
-    db.query(`SELECT title AS name, id AS value FROM titleName`, function (err, res) {
+    db.query(`SELECT title AS name, id AS value FROM role`, function (err, res) {
         if (err) {
             throw err;
         }
@@ -176,7 +176,7 @@ function newEmployee() {
                 },
                 {
                     type: 'list',
-                    name: 'titleName_id',
+                    name: 'role_id',
                     message: "What is their role?",
                     choices: res,
                     // example data of res: [{ name: 'John' + ' Kammeyer II', value: 4 }, { name: 'Bruce' + ' Barron', value: 5 }],
@@ -197,7 +197,7 @@ function newEmployee() {
                         let employee = {
                             first_name: answers.first_name,
                             last_name: answers.last_name,
-                            titleName_id: answers.titleName_id,
+                            role_id: answers.role_id,
                             manager_id: answers2.manager_id
                         }
                         // insert employee object into table
@@ -219,7 +219,7 @@ function newEmployee() {
 };
 
 function updateRole() {
-    db.query(`SELECT title AS name, id AS value FROM titleName`, function (err, res) {
+    db.query(`SELECT title AS name, id AS value FROM role`, function (err, res) {
         if (err) {
             throw err;
         }
@@ -269,7 +269,7 @@ function updateRole() {
                         salary: answers2.new_salary
                     }
                     // Use prepared statements updateRole object for SET and answers.title for id to pick which role to update
-                    db.query(`UPDATE titlename SET ? WHERE id = ?`, [updatedRole, answers.title], function(err, results) {
+                    db.query(`UPDATE role SET ? WHERE id = ?`, [updatedRole, answers.title], function(err, results) {
                         if (err) {
                             throw err;
                         }
