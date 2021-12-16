@@ -15,6 +15,7 @@ const questions = () => {
         }
     ])
         .then((answers) => {
+            // baseed on selection above, run the specificed function
             switch (answers.start) {
                 case 'View All Departments':
                     dbShowDept()
@@ -37,12 +38,48 @@ const questions = () => {
                 case 'Update an Employee Role':
                     updateRole();
                     break;
-
                 case 'Quit Program':
-                    endProgram()
+                    endProgram() // added option to quit 
                     break;
             }
         })
+};
+
+// show all departments
+function dbShowDept() {
+    db.query(`SELECT * FROM department`, function (err, results) {
+        if (err) {
+            throw err
+        };
+        console.table("All Departments", results)
+        questions() // restart main questions
+
+    })
+
+};
+
+// show all roles
+function dbShowRoles() {
+    db.query(`SELECT * FROM titleName`, function (err, results) {
+        if (err) {
+            throw err
+        };
+        console.table("All Roles", results)
+        questions()
+
+    })
+};
+
+// show all employees
+function dbShowEmployees() {
+    db.query(`SELECT * FROM employee`, function (err, results) {
+        if (err) {
+            throw err
+        };
+        console.table("All Employees", results)
+        questions()
+
+    })
 };
 
 function newDept() {
@@ -56,10 +93,13 @@ function newDept() {
     ])
         .then((answers) => {
             db.query(`INSERT INTO department (name)
-        VALUES ('${answers.deptName}') `, function (err, results, fields) {
-                console.log('answers is ' + answers.deptName)
+        VALUES ('${answers.deptName}') `, function (err, results) {
+                if (err) {
+                    throw err
+                };
+                // Show which department was added and details on its MySQL insert 
+                console.log('Sucessfully added ' + answers.deptName + '. See details below:')
                 console.log(results)
-                console.log(err)
 
                 questions()
 
@@ -69,9 +109,12 @@ function newDept() {
 };
 
 function newRole() {
-    // name is same as dept name column for retrieving query as an object. Make alias for id to be value to get id of dept name in the object
+    // 'name' is same as department 'name' column. Used for retrieving query as an object with name: ? and value: ?
+    // Make alias for id to be 'value' to get pk id of dept name in the object
     db.query(`SELECT name, id AS value FROM department`, function (err, res) {
-
+        if (err) {
+            throw err
+        };
 
         return inquirer.prompt([
             {
@@ -91,18 +134,18 @@ function newRole() {
                 name: 'dept_id',
                 message: 'Under what department is this role?',
                 choices: res,
-                //choices: [{ name: "Admin", value: 5 }, { name: 'Fire Board', value: 1 }, { name: 'Executive Staff', value: 2 }],
-                default: 'Admin'
+                // what res is hard coded: choices: [{ name: "Admin", value: 5 }, { name: 'Fire Board', value: 1 }],
+                default: 'TBD'
             }
         ])
 
             .then((answers) => {
                 db.query(`INSERT INTO titlename SET ?`, answers,
-                    function (err, results, fields) {
+                    function (err, results) {
                         if (err) {
                             throw err;
                         }
-                        //console.log('answers is ' + answers.deptName)
+                        console.log('Sucessfully added new Role: ' + answers.title + '. See details below:') // Role name: title
                         console.log(results)
 
                         questions()
@@ -112,35 +155,11 @@ function newRole() {
     })
 };
 
-function dbShowDept() {
-    db.query(`SELECT * FROM department`, function (err, results, fields) {
-        console.table(results);
-        questions()
-
-    })
-
-};
-
-// show all roles
-function dbShowRoles() {
-    db.query(`SELECT * FROM titleName`, function (err, results, fields) {
-        console.table(results);
-        questions()
-
-    })
-}
-
-function dbShowEmployees() {
-    db.query(`SELECT * FROM employee`, function (err, results, fields) {
-        console.table(results);
-        questions()
-
-    })
-};
-
 function newEmployee() {
-    myArray = []
     db.query(`SELECT title AS name, id AS value FROM titleName`, function (err, res) {
+        if (err) {
+            throw err;
+        }
         inquirer.prompt(
             [
                 {
@@ -160,10 +179,9 @@ function newEmployee() {
                     name: 'titleName_id',
                     message: "What is their role?",
                     choices: res,
-                    // [{ name: 'John' + ' Kammeyer II', value: 4 }, { name: 'Bruce' + ' Barron', value: 5 }],
+                    // example data of res: [{ name: 'John' + ' Kammeyer II', value: 4 }, { name: 'Bruce' + ' Barron', value: 5 }],
                     default: 'TBD'
                 }
-                //.then db query??
 
             ])
 
@@ -174,6 +192,7 @@ function newEmployee() {
                         name: 'manager_id',
                         message: 'Who is their manager?',
                         choices: res
+                        // create answers2 to separate from previous answers to combine in an object
                     }).then((answers2) => {
                         let employee = {
                             first_name: answers.first_name,
@@ -181,17 +200,19 @@ function newEmployee() {
                             titleName_id: answers.titleName_id,
                             manager_id: answers2.manager_id
                         }
+                        // insert employee object into table
                         db.query('INSERT INTO employee SET ?', employee, function (err, results) {
                             if (err) {
                                 throw err;
                             }
-                            console.log("Successfully added new Employee.")
+                            console.log("Successfully added new Employee: " + answers.first_name + ' ' + answers.last_name + '. See details below:')
+                            console.log(results)
                             questions()
                         })
 
                     })
                 })
-                    
+
 
             })
     })
