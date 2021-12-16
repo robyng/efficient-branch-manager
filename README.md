@@ -47,7 +47,8 @@ To start the program use this command:
     node index
 
 
-Watch this walkthrough showing how the program can be used.
+Watch this walkthrough showing how the program can be used:
+https://watch.screencastify.com/v/bdJeEYdQTpxNwX5QFSZ3
 
 
 ### Credits
