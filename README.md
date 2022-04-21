@@ -13,6 +13,11 @@ The log is organized in MySql database tables. Use your command line terminal to
 4. NPM console.table
 5. NPM mysql2
 
+### Technologies Used
+* MySQL
+* Inquierer
+* Node.js
+
 ### Installation
 This app requires a MySQL server on your computer. If you don't have it, follow this guide from UC Berkeley Extension Full Stack Coding Bootcamp: https://coding-boot-camp.github.io/full-stack/mysql/mysql-installation-guide
 
