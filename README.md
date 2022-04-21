@@ -15,7 +15,7 @@ The log is organized in MySql database tables. Use your command line terminal to
 
 ### Technologies Used
 * MySQL
-* Inquierer
+* Inquirer
 * Node.js
 
 ### Installation
