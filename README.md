@@ -1,6 +1,8 @@
 # The Efficient Branch Manager
 ## Organize your business with MySQL locally
 
+![App Screenshot](./mysql-branch-manager.png)
+
 ### About
 This node.js application helps you organize your business by creating a log of all your Departments, Employees, their salaries, their manager, and their company roles. 
 
